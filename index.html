@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controlador Oliver Spaceship - Interativo</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #333; /* Fundo escuro para contraste */
+            margin: 0;
+            font-family: sans-serif;
+        }
+
+        .controlador-container {
+            position: relative; /* Necessário para posicionar os botões absolutos */
+            /* Defina a largura e altura EXATAS da sua imagem ou use max-width para responsividade */
+            width: 800px;  /* Largura da sua imagem original */
+            height: 450px; /* Altura da sua imagem original */
+             /* Você pode usar max-width e deixar height auto se quiser que redimensione */
+             /* max-width: 100%;
+             height: auto;
+             aspect-ratio: 800 / 450; /* Mantém a proporção da imagem original */
+
+            background-image: url('controlador.jpg'); /* NOME DA SUA IMAGEM AQUI */
+            background-size: contain; /* Ajusta a imagem ao container */
+            background-repeat: no-repeat;
+            background-position: center;
+            border: 1px solid #555; /* Apenas para visualizar os limites do container */
+        }
+
+        .botao-clicavel {
+            position: absolute;
+            /* DESCOMENTE a linha abaixo para VER as áreas clicáveis durante o ajuste */
+            /* background-color: rgba(255, 0, 0, 0.4); */
+            cursor: pointer;
+            transition: background-color 0.1s ease; /* Feedback visual opcional */
+            /* Ajuste fino do border-radius pode melhorar a sensação */
+        }
+
+        .botao-clicavel:hover {
+             /* DESCOMENTE para ver feedback no hover durante o ajuste */
+             /* background-color: rgba(0, 255, 0, 0.5); */
+        }
+
+        /* --- NOVAS POSIÇÕES E TAMANHOS (AJUSTE FINO NECESSÁRIO!) --- */
+        /* Use as DevTools (F12) para posicionar exatamente sobre sua imagem */
+
+        #botao-quadrado {
+            top: 25%;    /* Ajustado para cima */
+            left:24%;   /* Ajustado para esquerda */
+            width: 8%;  /* Aumentado */
+            height: 12%; /* Aumentado */
+            border-radius: 30%; /* Mais quadrado que redondo */
+        }
+
+        #botao-x {
+            top: 25%;
+            left: 69%;   /* Ajustado para esquerda */
+            width: 8%;
+            height: 12%;
+            border-radius: 50%; /* Redondo */
+        }
+
+        #botao-circulo {
+            top: 61%;    /* Ajustado para cima */
+            left: 66%;
+            width: 8%;
+            height: 12%;
+             border-radius: 50%; /* Redondo */
+        }
+
+        #botao-triangulo {
+            top: 59%;
+            left: 27.5%;
+            width: 8%;
+            height: 13%;
+             border-radius: 30%; /* Menos redondo */
+        }
+
+        #botao-cima {
+            top: 24%;    /* Ajustado para cima */
+            left: 46%; /* Ajustado para esquerda */
+            width: 8.5%;  /* Aumentado */
+            height: 17%; /* Aumentado */
+            border-radius: 40%;
+        }
+
+         #botao-baixo {
+            top: 54%;    /* Ajustado para cima */
+            left: 46%;
+            width: 8%;
+            height: 15%;
+            border-radius: 40%;
+        }
+
+         #botao-esquerda {
+            top: 41%;    /* Ajustado para cima */
+            left: 37%;   /* Ajustado para esquerda */
+            width: 9%;  /* Aumentado */
+            height: 14%; /* Aumentado */
+            border-radius: 40%;
+        }
+
+        #botao-direita {
+            top: 40%;
+            left: 54%;   /* Ajustado para esquerda */
+            width: 9%;
+            height: 15%;
+             border-radius: 40%;
+        }
+
+         /* Esconde os elementos de áudio */
+         .audio-hidden {
+            display: none;
+         }
+
+    </style>
+</head>
+<body>
+
+    <div class="controlador-container">
+        <!-- Áreas clicáveis sobre os botões -->
+        <div class="botao-clicavel" id="botao-quadrado" data-sound="som_quadrado"></div>
+        <div class="botao-clicavel" id="botao-x" data-sound="som_x"></div>
+        <div class="botao-clicavel" id="botao-circulo" data-sound="som_circulo"></div>
+        <div class="botao-clicavel" id="botao-triangulo" data-sound="som_triangulo"></div>
+        <div class="botao-clicavel" id="botao-cima" data-sound="som_cima"></div>
+        <div class="botao-clicavel" id="botao-baixo" data-sound="som_baixo"></div>
+        <div class="botao-clicavel" id="botao-esquerda" data-sound="som_esquerda"></div>
+        <div class="botao-clicavel" id="botao-direita" data-sound="som_direita"></div>
+    </div>
+
+    <!-- Elementos de Áudio (ficam escondidos) -->
+    <!-- CONFIRA se os IDs aqui correspondem aos 'data-sound' acima -->
+    <!-- CONFIRA se os 'src' apontam para os arquivos de som corretos -->
+    <audio id="som_quadrado" class="audio-hidden" src="sons/som_quadrado.mp3" preload="auto"></audio>
+    <audio id="som_x" class="audio-hidden" src="sons/som_x.mp3" preload="auto"></audio>
+    <audio id="som_circulo" class="audio-hidden" src="sons/som_circulo.mp3" preload="auto"></audio>
+    <audio id="som_triangulo" class="audio-hidden" src="sons/som_triangulo.mp3" preload="auto"></audio>
+    <audio id="som_cima" class="audio-hidden" src="sons/som_cima.mp3" preload="auto"></audio>
+    <audio id="som_baixo" class="audio-hidden" src="sons/som_baixo.mp3" preload="auto"></audio>
+    <audio id="som_esquerda" class="audio-hidden" src="sons/som_esquerda.mp3" preload="auto"></audio>
+    <audio id="som_direita" class="audio-hidden" src="sons/som_direita.mp3" preload="auto"></audio>
+
+    <script>
+        // Seleciona todos os elementos que têm o atributo 'data-sound'
+        const botoesClicaveis = document.querySelectorAll('[data-sound]');
+
+        // Adiciona um ouvinte de evento de clique a cada botão
+        botoesClicaveis.forEach(botao => {
+            botao.addEventListener('click', function() {
+
+                const soundId = this.getAttribute('data-sound');
+
+                const audioElement = document.getElementById(soundId);
+
+
+                if (audioElement) {
+
+                    audioElement.pause();
+                    audioElement.currentTime = 0;
+
+                    audioElement.play()
+                        .catch(error => {
+
+                             console.error("Erro ao tocar o som:", error);
+       
+                        });
+                } else {
+                    console.warn(`Elemento de áudio não encontrado para o ID: ${soundId}. Verifique o ID no HTML e o atributo 'data-sound'.`);
+                }
+            });
+        });
+
+
+         function habilitarAudio() {
+            console.log("Interação inicial detectada, áudio habilitado.");
+
+            document.body.removeEventListener('click', habilitarAudio); 
+         }
+         document.body.addEventListener('click', habilitarAudio);
+
+    </script>
+
+</body>
+</html>
