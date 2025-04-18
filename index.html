@@ -2,36 +2,49 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> <!-- Adicionado user-scalable=no -->
     <title>Controlador Oliver Spaceship</title>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192.png">
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #333; /* Fundo escuro para contraste */
-            margin: 0;
-            font-family: sans-serif;
+        /* --- NOVOS ESTILOS PARA HTML E BODY --- */
+        html, body {
+            height: 100%;         /* Garante que ambos tentem ocupar 100% da altura */
+            margin: 0;            /* Remove margens padrão */
+            padding: 0;           /* Remove preenchimentos padrão */
+            overflow: hidden;     /* ESSENCIAL: Impede o scroll da página inteira */
+            -webkit-overflow-scrolling: touch; /* Melhora a sensação em iOS se houver scroll interno */
         }
 
+        body {
+            display: flex;        /* Mantém o flexbox para centralização */
+            justify-content: center; /* Centraliza horizontalmente */
+            align-items: center;    /* Centraliza verticalmente */
+            background-color: #333; /* Fundo escuro para contraste */
+            font-family: sans-serif;
+            height: 100%;         /* Garante que o body ocupe a altura total */
+        }
+
+        /* --- ESTILOS ATUALIZADOS PARA O CONTAINER --- */
         .controlador-container {
-            position: relative; /* Necessário para posicionar os botões absolutos */
-            /* Defina a largura e altura EXATAS da sua imagem ou use max-width para responsividade */
-            width: 800px;  /* Largura da sua imagem original */
-            height: 450px; /* Altura da sua imagem original */
-             /* Você pode usar max-width e deixar height auto se quiser que redimensione */
-             /* max-width: 100%;
-             height: auto;
-             aspect-ratio: 800 / 450; /* Mantém a proporção da imagem original */
+            position: relative;
+            /* REMOVIDO width e height fixos */
+            /* width: 800px; */
+            /* height: 450px; */
+
+            /* ADICIONADO para responsividade e centralização */
+            max-width: 95%;          /* Limita a largura máxima (ex: 95% da largura da tela) */
+            max-height: 95vh;         /* Limita a altura máxima (ex: 95% da altura da tela) */
+            aspect-ratio: 800 / 450; /* Mantém a proporção original da sua imagem (800 largura / 450 altura) */
+            width: auto;             /* Permite encolher mantendo a proporção */
+            height: auto;            /* Permite encolher mantendo a proporção */
 
             background-image: url('controlador.jpg'); /* NOME DA SUA IMAGEM AQUI */
-            background-size: contain; /* Ajusta a imagem ao container */
+            background-size: contain; /* A imagem se ajusta dentro do container */
             background-repeat: no-repeat;
             background-position: center;
-            border: 1px solid #555; /* Apenas para visualizar os limites do container */
+            /* border: 1px solid #555; */ /* Deixe comentado ou remova se não quiser a borda de debug */
+            display: block; /* Garante que o container se comporte como um bloco */
         }
 
         .botao-clicavel {
@@ -39,8 +52,7 @@
             /* DESCOMENTE a linha abaixo para VER as áreas clicáveis durante o ajuste */
             /* background-color: rgba(255, 0, 0, 0.4); */
             cursor: pointer;
-            transition: background-color 0.1s ease; /* Feedback visual opcional */
-            /* Ajuste fino do border-radius pode melhorar a sensação */
+            transition: background-color 0.1s ease;
         }
 
         .botao-clicavel:hover {
@@ -48,31 +60,31 @@
              /* background-color: rgba(0, 255, 0, 0.5); */
         }
 
-        /* --- NOVAS POSIÇÕES E TAMANHOS (AJUSTE FINO NECESSÁRIO!) --- */
-        /* Use as DevTools (F12) para posicionar exatamente sobre sua imagem */
+        /* --- POSIÇÕES E TAMANHOS DOS BOTÕES (em % devem se ajustar) --- */
+        /* Verifique se ainda estão bons após o container se tornar responsivo */
 
         #botao-quadrado {
-            top: 25%;    /* Ajustado para cima */
-            left:24%;   /* Ajustado para esquerda */
-            width: 8%;  /* Aumentado */
-            height: 12%; /* Aumentado */
-            border-radius: 30%; /* Mais quadrado que redondo */
+            top: 25%;
+            left:24%;
+            width: 8%;
+            height: 12%;
+            border-radius: 30%;
         }
 
         #botao-x {
             top: 25%;
-            left: 69%;   /* Ajustado para esquerda */
+            left: 69%;
             width: 8%;
             height: 12%;
-            border-radius: 50%; /* Redondo */
+            border-radius: 50%;
         }
 
         #botao-circulo {
-            top: 61%;    /* Ajustado para cima */
+            top: 61%;
             left: 66%;
             width: 8%;
             height: 12%;
-             border-radius: 50%; /* Redondo */
+             border-radius: 50%;
         }
 
         #botao-triangulo {
@@ -80,19 +92,19 @@
             left: 27.5%;
             width: 8%;
             height: 13%;
-             border-radius: 30%; /* Menos redondo */
+             border-radius: 30%;
         }
 
         #botao-cima {
-            top: 24%;    /* Ajustado para cima */
-            left: 46%; /* Ajustado para esquerda */
-            width: 8.5%;  /* Aumentado */
-            height: 17%; /* Aumentado */
+            top: 24%;
+            left: 46%;
+            width: 8.5%;
+            height: 17%;
             border-radius: 40%;
         }
 
          #botao-baixo {
-            top: 54%;    /* Ajustado para cima */
+            top: 54%;
             left: 46%;
             width: 8%;
             height: 15%;
@@ -100,16 +112,16 @@
         }
 
          #botao-esquerda {
-            top: 41%;    /* Ajustado para cima */
-            left: 37%;   /* Ajustado para esquerda */
-            width: 9%;  /* Aumentado */
-            height: 14%; /* Aumentado */
+            top: 41%;
+            left: 37%;
+            width: 9%;
+            height: 14%;
             border-radius: 40%;
         }
 
         #botao-direita {
             top: 40%;
-            left: 54%;   /* Ajustado para esquerda */
+            left: 54%;
             width: 9%;
             height: 15%;
              border-radius: 40%;
@@ -137,8 +149,6 @@
     </div>
 
     <!-- Elementos de Áudio (ficam escondidos) -->
-    <!-- CONFIRA se os IDs aqui correspondem aos 'data-sound' acima -->
-    <!-- CONFIRA se os 'src' apontam para os arquivos de som corretos -->
     <audio id="som_quadrado" class="audio-hidden" src="sons/som_quadrado.mp3" preload="auto"></audio>
     <audio id="som_x" class="audio-hidden" src="sons/som_x.mp3" preload="auto"></audio>
     <audio id="som_circulo" class="audio-hidden" src="sons/som_circulo.mp3" preload="auto"></audio>
@@ -157,20 +167,14 @@
             botao.addEventListener('click', function() {
 
                 const soundId = this.getAttribute('data-sound');
-
                 const audioElement = document.getElementById(soundId);
 
-
                 if (audioElement) {
-
                     audioElement.pause();
                     audioElement.currentTime = 0;
-
                     audioElement.play()
                         .catch(error => {
-
                              console.error("Erro ao tocar o som:", error);
-       
                         });
                 } else {
                     console.warn(`Elemento de áudio não encontrado para o ID: ${soundId}. Verifique o ID no HTML e o atributo 'data-sound'.`);
@@ -178,13 +182,23 @@
             });
         });
 
-
+         // Listener para interação inicial (importante para autoplay)
          function habilitarAudio() {
             console.log("Interação inicial detectada, áudio habilitado.");
-
-            document.body.removeEventListener('click', habilitarAudio); 
+            // Tenta tocar todos os áudios silenciosamente para "desbloquear" (opcional, pode não ser necessário)
+             /*
+             document.querySelectorAll('audio').forEach(audio => {
+                 let vol = audio.volume;
+                 audio.volume = 0;
+                 audio.play().catch(()=>{}); // Ignora erro se falhar
+                 audio.pause();
+                 audio.currentTime = 0;
+                 audio.volume = vol;
+             });
+             */
+            document.body.removeEventListener('click', habilitarAudio);
          }
-         document.body.addEventListener('click', habilitarAudio);
+         document.body.addEventListener('click', habilitarAudio, { once: true }); // Garante que rode só uma vez
 
     </script>
 
