@@ -4,10 +4,6 @@
 
 This is a simple, interactive web-based soundboard designed to look like a spaceship control panel. I built it for my son, Oliver, so he can press the buttons and 'control' me as I pretend to be his spaceship, responding to his commands with appropriate noises (or actions!). It's built purely with HTML, CSS, and JavaScript, requiring no backend.
 
-It's hosted live using GitHub Pages here:
-[**>>> Try the Live Controller Here <<<**](https://SEU_USUARIO.github.io/SEU_REPOSITORIO/)
-*(Replace the link above with your actual GitHub Pages URL!)*
-
 ## How it Works ⚙️
 
 *   **Image-Based Interface:** Uses a single image (`controlador.jpg` or your chosen file) as the controller background.
@@ -47,4 +43,3 @@ This project is designed to be easily customizable if you want to adapt it for y
 *   **Text:** Edit the page title (`<title>`) and any other visible text directly within `index.html`. The "OLIVER SPACESHIP" text is part of the background image in the original example, so changing that would require editing the image itself.
 *   **Styling:** Modify general appearance like the page background color (`body { background-color: ... }`) or add other visual flair within the `<style>` section of `index.html`.
 
-## Have Fun Piloting! 🚀
