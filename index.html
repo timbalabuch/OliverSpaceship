@@ -2,66 +2,53 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> <!-- Adicionado user-scalable=no -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> <!-- Adicionado user-scalable=no para tentar evitar zoom/scroll por gesto -->
     <title>Controlador Oliver Spaceship</title>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192.png">
     <style>
-        /* --- NOVOS ESTILOS PARA HTML E BODY --- */
+        /* ADICIONADO: Garante que html e body ocupem a tela e desabilita o scroll */
         html, body {
-            height: 100%;         /* Garante que ambos tentem ocupar 100% da altura */
+            height: 100%;         /* Garante que tentem ocupar 100% da altura */
             margin: 0;            /* Remove margens padrão */
             padding: 0;           /* Remove preenchimentos padrão */
             overflow: hidden;     /* ESSENCIAL: Impede o scroll da página inteira */
-            -webkit-overflow-scrolling: touch; /* Melhora a sensação em iOS se houver scroll interno */
+            -webkit-overflow-scrolling: touch; /* Melhora a sensação em iOS se houver scroll interno (mas overflow: hidden deve prevenir) */
         }
 
+        /* Estilo original do body mantido, mas height: 100% acima é mais importante */
         body {
-            display: flex;        /* Mantém o flexbox para centralização */
-            justify-content: center; /* Centraliza horizontalmente */
-            align-items: center;    /* Centraliza verticalmente */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Mantido do original, mas height:100% acima pode ter precedência */
             background-color: #333; /* Fundo escuro para contraste */
+            /* margin: 0; Já definido acima */
             font-family: sans-serif;
-            height: 100%;         /* Garante que o body ocupe a altura total */
         }
 
-        /* --- ESTILOS ATUALIZADOS PARA O CONTAINER --- */
+        /* O resto do CSS permanece exatamente como você enviou */
         .controlador-container {
             position: relative;
-            /* REMOVIDO width e height fixos */
-            /* width: 800px; */
-            /* height: 450px; */
-
-            /* ADICIONADO para responsividade e centralização */
-            max-width: 95%;          /* Limita a largura máxima (ex: 95% da largura da tela) */
-            max-height: 95vh;         /* Limita a altura máxima (ex: 95% da altura da tela) */
-            aspect-ratio: 800 / 450; /* Mantém a proporção original da sua imagem (800 largura / 450 altura) */
-            width: auto;             /* Permite encolher mantendo a proporção */
-            height: auto;            /* Permite encolher mantendo a proporção */
-
-            background-image: url('controlador.jpg'); /* NOME DA SUA IMAGEM AQUI */
-            background-size: contain; /* A imagem se ajusta dentro do container */
+            width: 800px;
+            height: 450px;
+            background-image: url('controlador.jpg');
+            background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            /* border: 1px solid #555; */ /* Deixe comentado ou remova se não quiser a borda de debug */
-            display: block; /* Garante que o container se comporte como um bloco */
+            border: 1px solid #555;
         }
 
         .botao-clicavel {
             position: absolute;
-            /* DESCOMENTE a linha abaixo para VER as áreas clicáveis durante o ajuste */
             /* background-color: rgba(255, 0, 0, 0.4); */
             cursor: pointer;
             transition: background-color 0.1s ease;
         }
 
         .botao-clicavel:hover {
-             /* DESCOMENTE para ver feedback no hover durante o ajuste */
              /* background-color: rgba(0, 255, 0, 0.5); */
         }
-
-        /* --- POSIÇÕES E TAMANHOS DOS BOTÕES (em % devem se ajustar) --- */
-        /* Verifique se ainda estão bons após o container se tornar responsivo */
 
         #botao-quadrado {
             top: 25%;
@@ -127,7 +114,6 @@
              border-radius: 40%;
         }
 
-         /* Esconde os elementos de áudio */
          .audio-hidden {
             display: none;
          }
@@ -137,7 +123,7 @@
 <body>
 
     <div class="controlador-container">
-        <!-- Áreas clicáveis sobre os botões -->
+        <!-- Conteúdo do container e botões -->
         <div class="botao-clicavel" id="botao-quadrado" data-sound="som_quadrado"></div>
         <div class="botao-clicavel" id="botao-x" data-sound="som_x"></div>
         <div class="botao-clicavel" id="botao-circulo" data-sound="som_circulo"></div>
@@ -148,7 +134,7 @@
         <div class="botao-clicavel" id="botao-direita" data-sound="som_direita"></div>
     </div>
 
-    <!-- Elementos de Áudio (ficam escondidos) -->
+    <!-- Elementos de áudio -->
     <audio id="som_quadrado" class="audio-hidden" src="sons/som_quadrado.mp3" preload="auto"></audio>
     <audio id="som_x" class="audio-hidden" src="sons/som_x.mp3" preload="auto"></audio>
     <audio id="som_circulo" class="audio-hidden" src="sons/som_circulo.mp3" preload="auto"></audio>
@@ -158,48 +144,29 @@
     <audio id="som_esquerda" class="audio-hidden" src="sons/som_esquerda.mp3" preload="auto"></audio>
     <audio id="som_direita" class="audio-hidden" src="sons/som_direita.mp3" preload="auto"></audio>
 
+    <!-- Script -->
     <script>
-        // Seleciona todos os elementos que têm o atributo 'data-sound'
         const botoesClicaveis = document.querySelectorAll('[data-sound]');
-
-        // Adiciona um ouvinte de evento de clique a cada botão
         botoesClicaveis.forEach(botao => {
             botao.addEventListener('click', function() {
-
                 const soundId = this.getAttribute('data-sound');
                 const audioElement = document.getElementById(soundId);
-
                 if (audioElement) {
                     audioElement.pause();
                     audioElement.currentTime = 0;
-                    audioElement.play()
-                        .catch(error => {
+                    audioElement.play().catch(error => {
                              console.error("Erro ao tocar o som:", error);
                         });
                 } else {
-                    console.warn(`Elemento de áudio não encontrado para o ID: ${soundId}. Verifique o ID no HTML e o atributo 'data-sound'.`);
+                    console.warn(`Elemento de áudio não encontrado para o ID: ${soundId}.`);
                 }
             });
         });
-
-         // Listener para interação inicial (importante para autoplay)
          function habilitarAudio() {
             console.log("Interação inicial detectada, áudio habilitado.");
-            // Tenta tocar todos os áudios silenciosamente para "desbloquear" (opcional, pode não ser necessário)
-             /*
-             document.querySelectorAll('audio').forEach(audio => {
-                 let vol = audio.volume;
-                 audio.volume = 0;
-                 audio.play().catch(()=>{}); // Ignora erro se falhar
-                 audio.pause();
-                 audio.currentTime = 0;
-                 audio.volume = vol;
-             });
-             */
             document.body.removeEventListener('click', habilitarAudio);
          }
-         document.body.addEventListener('click', habilitarAudio, { once: true }); // Garante que rode só uma vez
-
+         document.body.addEventListener('click', habilitarAudio);
     </script>
 
 </body>
