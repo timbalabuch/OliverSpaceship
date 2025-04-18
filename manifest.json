@@ -1,0 +1,23 @@
+```json
+{
+  "name": "Oliver Spaceship", // Nome completo que aparecerá
+  "short_name": "Spaceship",   // Nome curto para o ícone na tela inicial
+  "description": "Controlador de naves interativo para Oliver",
+  "start_url": "https://timbalabuch.github.io/OliverSpaceship",             // Inicia na página principal (index.html)
+  "display": "standalone",      // Abre como um app (sem UI do navegador)
+  "background_color": "#BFCBED", // Cor de fundo antes do app carregar
+  "theme_color": "#0259F4",      // Cor da barra de status (pode ajustar)
+  "icons": [
+    {
+      "src": "icon-192.png",    // Caminho para seu ícone (crie um 192x192)
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",    // Caminho para seu ícone maior
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+```
