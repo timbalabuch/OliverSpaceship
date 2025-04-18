@@ -5,8 +5,8 @@
   "scope": "/OliverSpaceship/",  
   "start_url": "https://timbalabuch.github.io/OliverSpaceship",             
   "display": "standalone",
-  "background_color": "#BFCBED", 
-  "theme_color": "#0259F4",     
+  "background_color": "#000000", 
+  "theme_color": "#000000",     
   "icons": [
     {
       "src": "icon-192.png",    
